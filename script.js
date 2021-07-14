@@ -3,8 +3,8 @@ let addtaskinput = document.getElementById("addtaskinput");
 let addtaskbtn = document.getElementById("addtaskbtn");
 
 if(window.localStorage.getItem("localtask") == undefined){
-    axios.get("https://jsonplaceholder.typicode.com/todos")
-    .then((response) =>{
+    const response = axios.get("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => {
         var todos = [];
         const responseData = response.data;
         for (let t = 0; t < 5; t++) {
@@ -18,7 +18,15 @@ if(window.localStorage.getItem("localtask") == undefined){
     })
 }
 
-var todosLS = window/localStorage.getItem("localtask");
+
+async function loadTodos() {
+    const response = await axios.get("https://jsonplaceholder.typicode.com/todos") 
+    console.log('response.data:', response.data);
+    return response
+    }
+loadTodos();
+
+var todosLS = window.localStorage.getItem("localtask");
 var todos = JSON.parse(todosLS);
 
 addtaskbtn.addEventListener("click", function(){
