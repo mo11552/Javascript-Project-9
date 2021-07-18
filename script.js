@@ -1,9 +1,8 @@
-showtask();
 let addtaskinput = document.getElementById("addtaskinput");
 let addtaskbtn = document.getElementById("addtaskbtn");
 
-if(window.localStorage.getItem("localtask") == undefined){
-    const response = axios.get("https://jsonplaceholder.typicode.com/todos")
+async function loadTodos() {
+    const response = await axios.get("https://jsonplaceholder.typicode.com/todos") 
     .then((response) => {
         var todos = [];
         const responseData = response.data;
@@ -11,20 +10,16 @@ if(window.localStorage.getItem("localtask") == undefined){
             todos.push(responseData[t].title)
         }
         window.localStorage.setItem("localtask", JSON.stringify(todos));
-
-        for (var v = 0; v < todos.length; v++){
-            new item(todos[v]);
-        }
+        showTask();
     })
 }
 
-
-async function loadTodos() {
-    const response = await axios.get("https://jsonplaceholder.typicode.com/todos") 
-    console.log('response.data:', response.data);
-    return response
-    }
-loadTodos();
+if(window.localStorage.getItem("localtask") == undefined){
+    loadTodos()
+}
+else {
+    showTask();
+}
 
 var todosLS = window.localStorage.getItem("localtask");
 var todos = JSON.parse(todosLS);
@@ -44,7 +39,7 @@ addtaskbtn.addEventListener("click", function(){
         localStorage.setItem("localtask", JSON.stringify(taskObj));
         addtaskinput.value = '';
     }
-    showtask();
+    showTask();
 })
 
 // showtask
