@@ -42,8 +42,13 @@ addtaskbtn.addEventListener("click", function(){
     showTask();
 })
 
-// showtask
-function showtask(){
+
+
+// showTask
+async function showTask(){
+    const response = await axios.get("https://jsonplaceholder.typicode.com/todos") 
+    .then((response) => {
+
     let webtask = localStorage.getItem("localtask");
     if(webtask == null){
         taskObj = [];
@@ -63,16 +68,16 @@ function showtask(){
         html += `<tr>
                     <th scope="row">${index+1}</th>
                     ${taskCompleteValue}
-                    <td><button type="button" onclick="edittask(${index})" class="text-primary"><i class="fa fa-edit"></i>Edit</button></td>
+                    <td><button type="button" onclick="editTask(${index})" class="text-primary"><i class="fa fa-edit"></i>Edit</button></td>
                     <td><button type="button" class="text-success" id=${index}><i class="fa fa-check-square-o"></i>Complete</button></td>
-                    <td><button type="button" onclick="deleteitem(${index})" class="text-danger"><i class="fa fa-trash"></i>Delete</button></td>
+                    <td><button type="button" onclick="deleteItem(${index})" class="text-danger"><i class="fa fa-trash"></i>Delete</button></td>
                 </tr>`;
     });
     addedtasklist.innerHTML = html;
+    })
 }
-
-// edittask
-function edittask(index){
+// editTask
+function editTask(index){
     let saveindex = document.getElementById("saveindex");
     let addtaskbtn = document.getElementById("addtaskbtn");
     let savetaskbtn = document.getElementById("savetaskbtn");
@@ -104,15 +109,15 @@ savetaskbtn.addEventListener("click", function(){
     addtaskbtn.style.display="block";
     localStorage.setItem("localtask", JSON.stringify(taskObj));
     addtaskinput.value='';
-    showtask();
+    showTask();
 })
-// deleteitem
-function deleteitem(index){
+// deleteItem
+function deleteItem(index){
     let webtask = localStorage.getItem("localtask");
     let taskObj = JSON.parse(webtask);
     taskObj.splice(index, 1);
     localStorage.setItem("localtask", JSON.stringify(taskObj));
-    showtask();
+    showTask();
 }
 
 // complete task
@@ -120,7 +125,7 @@ let addedtasklist = document.getElementById("addedtasklist");
     addedtasklist.addEventListener("click", function(e){
        // console.log(e);
         
-        // showtask();
+        // showTask();
         let webtask = localStorage.getItem("localtask");
         let taskObj = JSON.parse(webtask);
         
@@ -145,9 +150,9 @@ let addedtasklist = document.getElementById("addedtasklist");
                 }
               }
         //}
-       // showtask();        
+       // showTask();        
         localStorage.setItem("localtask", JSON.stringify(taskObj));
-        showtask();
+        showTask();
     }
     })
 
@@ -168,6 +173,5 @@ deleteallbtn.addEventListener("click", function(){
     savetaskbtn.style.display="none";
     addtaskbtn.style.display="block";
     localStorage.setItem("localtask", JSON.stringify(taskObj));
-    showtask();
+    showTask();
 })
-
