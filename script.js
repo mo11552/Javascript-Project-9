@@ -42,13 +42,8 @@ addtaskbtn.addEventListener("click", function(){
     showTask();
 })
 
-
-
 // showTask
-async function showTask(){
-    const response = await axios.get("https://jsonplaceholder.typicode.com/todos") 
-    .then((response) => {
-
+function showTask(){
     let webtask = localStorage.getItem("localtask");
     if(webtask == null){
         taskObj = [];
@@ -74,7 +69,7 @@ async function showTask(){
                 </tr>`;
     });
     addedtasklist.innerHTML = html;
-    })
+    loadTodos();
 }
 // editTask
 function editTask(index){
@@ -175,3 +170,4 @@ deleteallbtn.addEventListener("click", function(){
     localStorage.setItem("localtask", JSON.stringify(taskObj));
     showTask();
 })
+
