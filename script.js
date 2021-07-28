@@ -7,15 +7,17 @@ async function loadTodos() {
         var todos = [];
         const responseData = response.data;
         for (let t = 0; t < 5; t++) {
-            todos.push(responseData[t].title)
+            //todos.push(responseData[t].title)
+            todos.push({'task_name': responseData[t].title, 'completeStatus': false});
         }
         window.localStorage.setItem("localtask", JSON.stringify(todos));
-        showTask();
+        
     })
 }
 
 if(window.localStorage.getItem("localtask") == undefined){
-    loadTodos()
+    loadTodos();
+    showTask();
 }
 else {
     showTask();
@@ -54,7 +56,7 @@ function showTask(){
     let html = '';
     let addedtasklist = document.getElementById("addedtasklist");
     taskObj.forEach((item, index) => {
-
+      
         if(item.completeStatus==true){
             taskCompleteValue = `<td class="completed">${item.task_name}</td>`;
         }else{
